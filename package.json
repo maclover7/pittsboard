@@ -5,5 +5,21 @@
   "repository": "git@github.com:maclover7/papi.git",
   "author": "Jon Moss <me@jonathanmoss.me>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "scripts": {
+    "lint": "eslint index.js lib/ test/",
+    "start": "node index.js",
+    "test": "yarn run lint && tap test/*.js"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.2.0",
+    "nock": "^9.4.2",
+    "supertest": "^3.1.0",
+    "tap": "^12.0.1"
+  }
 }
