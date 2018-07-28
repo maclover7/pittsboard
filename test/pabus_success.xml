@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<stop>
+
+
+	<pre>
+
+		<pt>11</pt>
+		<pu> MINUTES</pu>
+
+
+		<mode>1</mode>		
+		<consist></consist>								
+		<cars></cars>								  
+		<fd> DOWNTOWN</fd>
+		<zone></zone> 
+
+		
+		<scheduled>false</scheduled>
+		<nextbusminutes>0</nextbusminutes>
+		<nextbusonroutetime>12:39 PM</nextbusonroutetime>
+		<v>6346</v>
+		
+
+		<rn>83</rn>
+		<rd>83</rd>
+	</pre>
+
+
+</stop>
