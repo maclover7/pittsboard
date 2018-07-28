@@ -9,6 +9,8 @@ Run `yarn install && yarn start` to launch the server.
 You must declare the following environment variables:
 
 - `DARK_SKY_KEY`: API key from darksky.net
+- `PABUS_ID`: Stop ID from truetime.portauthority.org
+- `PABUS_KEY`: API Key from truetime.portauthority.org
 
 ### License
 
