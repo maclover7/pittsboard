@@ -45,9 +45,11 @@
 
         <!-- Shuttle -->
         <!-- 10B for going between cathy and sutherland hall -->
+        <div id="pittbus"></div>
+        <hr>
 
         <!-- PA Bus -->
-        <div id="pabus"></ul>
+        <div id="pabus"></div>
       </div>
 
       <div class="col-md-6">
@@ -79,6 +81,15 @@ $(document).ready(() => {
     });
   };
 
+  const initPittBus = () => {
+    $.getJSON('/api/pittbus', (body, status, response) => {
+      $('div#pittbus').html('');
+      body.forEach((bus) => {
+        $('div#pittbus').append(`<h5><image class="pdash-icon" src="bus-solid.svg" /> ${bus.status}: ${bus.route}</h5>`);
+      });
+    });
+  };
+
   const initWeather = () => {
     $.getJSON('/api/weather', (body, status, response) => {
       var getDesc = (key) => {
@@ -105,7 +116,7 @@ $(document).ready(() => {
     });
   };
 
-  [initDate, initWeather, initPaBus].forEach(fn => fn.call());
+  [initDate, initWeather, initPaBus, initPittBus].forEach(fn => fn.call());
 });
   </script>
 </body>

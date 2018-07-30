@@ -26,9 +26,9 @@ tap.test('correctly sends pabus response if success', (t) => {
 
     const expectedResponse = [
       {
-        destination: 'DOWNTOWN',
+        destination: 'Downtown',
         route: '83',
-        status: '11 MINUTES'
+        status: '11 Minutes'
       }
     ];
 
