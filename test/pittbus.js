@@ -16,7 +16,7 @@ const getPittbus = (cb) => {
 };
 
 tap.test('correctly sends pittbus response if success', (t) => {
-  const successFixture = require('fs').readFileSync('./test/pittbus.json').toString();
+  const successFixture = require('fs').readFileSync('./test/pittbus_success.json').toString();
   nock('http://www.pittshuttle.com')
     .filteringPath(ignoreQueryParams)
     .get('/Services/JSONPRelay.svc/GetMapStopEstimates')
@@ -28,7 +28,7 @@ tap.test('correctly sends pittbus response if success', (t) => {
     const expectedResponse = [
       {
         route: '1U North South Loop Outbound',
-        status: '1155 seconds'
+        status: '19 minutes'
       }
     ];
 
