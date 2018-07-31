@@ -7,14 +7,8 @@ const ignoreQueryParams = (pathAndQuery) => {
 };
 
 const getPittbus = (cb) => {
-  process.env.PITTBUS_ID = '738';
+  process.env.PITTBUS_ID = 'Cathedral of Learning';
   process.env.PITTBUS_KEY = '';
-
-  const successFixture = require('fs').readFileSync('./test/pittbus_routes_success.json').toString();
-  nock('http://www.pittshuttle.com')
-    .filteringPath(ignoreQueryParams)
-    .get('/Services/JSONPRelay.svc/GetRoutes')
-    .reply(200, successFixture);
 
   supertest(require('../lib/server'))
     .get('/api/pittbus')
@@ -22,10 +16,10 @@ const getPittbus = (cb) => {
 };
 
 tap.test('correctly sends pittbus response if success', (t) => {
-  const successFixture = require('fs').readFileSync('./test/pittbus_success.json').toString();
+  const successFixture = require('fs').readFileSync('./test/pittbus.json').toString();
   nock('http://www.pittshuttle.com')
     .filteringPath(ignoreQueryParams)
-    .get('/Services/JSONPRelay.svc/GetRouteStopArrivals')
+    .get('/Services/JSONPRelay.svc/GetMapStopEstimates')
     .reply(200, successFixture);
 
   getPittbus((err, res) => {
@@ -33,8 +27,8 @@ tap.test('correctly sends pittbus response if success', (t) => {
 
     const expectedResponse = [
       {
-        route: '1U North South Loop',
-        status: 'In 305 seconds'
+        route: '1U North South Loop Outbound',
+        status: '1155 seconds'
       }
     ];
 
@@ -46,7 +40,7 @@ tap.test('correctly sends pittbus response if success', (t) => {
 tap.test('correctly sends pittbus response if error', (t) => {
   nock('http://www.pittshuttle.com')
     .filteringPath(ignoreQueryParams)
-    .get('/Services/JSONPRelay.svc/GetRouteStopArrivals')
+    .get('/Services/JSONPRelay.svc/GetMapStopEstimates')
     .reply(500, '');
 
   getPittbus((err, res) => {
