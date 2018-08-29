@@ -53,21 +53,21 @@
 
 	<pre>
 
-		<pt>11</pt>
+		<pt>13</pt>
 		<pu> MINUTES</pu>
 
 
 		<mode>1</mode>		
 		<consist></consist>								
 		<cars></cars>								  
-		<fd> DOWNTOWN</fd>
+		<fd> WHARTON SQ</fd>
 		<zone></zone> 
 
 		
 		<scheduled>false</scheduled>
 		<nextbusminutes>0</nextbusminutes>
-		<nextbusonroutetime>12:39 PM</nextbusonroutetime>
-		<v>6346</v>
+		<nextbusonroutetime>10:09 PM</nextbusonroutetime>
+		<v>6348</v>
 		
 
 		<rn>83</rn>

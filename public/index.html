@@ -17,12 +17,17 @@
   align-items: center;
   margin-bottom: .5rem;
 }
+
+.center {
+  text-align: center;
+}
   </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
   <div class="container">
-    <h1 style="text-align: center;">pdash -- <span id="today-date"></span></h1>
+    <h2 class="center">pdash -- <span id="today-date"></span></h2>
 
     <div class="row">
       <div class="col-md-6">
@@ -41,25 +46,24 @@
           <canvas class="pdash-icon" id="tomorrow-icon"></canvas>
           <h5 id="tomorrow-headline"></h5>
         </div>
-        <hr>
 
         <!-- Shuttle -->
-        <!-- 10B for going between cathy and sutherland hall -->
         <div id="pittbus"></div>
-        <hr>
-
-        <!-- PA Bus -->
-        <div id="pabus"></div>
       </div>
 
       <div class="col-md-6">
-        <!-- Schedule -->
+        <!-- PA Bus -->
+        <div id="pabus"></div>
       </div>
+    </div>
 
-      <hr>
+    <hr>
 
-      <p>Created by Jon Moss.</p>
-      <p>Font Awesome use is under the <a href="https://fontawesome.com/license">CCA 4.0 International license</a>.</p>
+    <div class="row">
+      <p>
+        Created by Jon Moss.
+        Font Awesome use is under the <a href="https://fontawesome.com/license">CCA 4.0 International license</a>.
+      </p>
     </div>
   </div>
 
@@ -72,27 +76,36 @@ $(document).ready(() => {
     $('span#today-date').html(`${today.getMonth() + 1}/${today.getDate()}/${today.getYear() - 100}`);
   };
 
-  const initPaBus = () => {
-    $.getJSON('/api/pabus', (body, status, response) => {
-      $('div#pabus').html('');
-      body.forEach((bus) => {
-        $('div#pabus').append(`<h6><image class="pdash-icon" src="bus-solid.svg" /> ${bus.status}: ${bus.route} to ${bus.destination}</h6>`);
-      });
-    });
-  };
+  const initBus = (type) => {
+    const $container = $(`div#${type}`);
 
-  const initPittBus = () => {
-    $.getJSON('/api/pittbus', (body, status, response) => {
-      $('div#pittbus').html('');
-      body.forEach((bus) => {
-        $('div#pittbus').append(`<h6><image class="pdash-icon" src="bus-solid.svg" /> ${bus.status}: ${bus.route}</h6>`);
+    $.getJSON(`/api/${type}`, (body, status, response) => {
+      $container.html('');
+      body.forEach((busStops) => {
+        Object.keys(busStops).forEach((busStop) => {
+          $container.append(`<h4 class='center'>${busStop}</h4>`);
+
+          if (busStops[busStop].length === 0) {
+            $container.append(`<h6>No times.</h6>`);
+          } else {
+            busStops[busStop].slice(0, 5).forEach((bus) => {
+              var text = `<h6><image class="pdash-icon" src="bus-solid.svg" /> ${bus.status}: ${bus.route}`;
+              if (bus.destination)
+                 text += ` to ${bus.destination}`;
+              text += `</h6>`;
+
+              $container.append(text);
+            });
+          }
+        });
       });
     });
   };
 
   const initWeather = () => {
     $.getJSON('/api/weather', (body, status, response) => {
-      var getDesc = (key) => {
+      const getDesc = (key) => {
+        var temps = [];
         if (!body[key].temp) {
           temps = [body[key].high, body[key].low];
         } else {
@@ -109,14 +122,14 @@ $(document).ready(() => {
       };
 
       $('h5#now-headline').html(`Now: ${getDesc('now')}`);
-      $('h5#today-headline').html(`Day: ${getDesc('today')}`);
+      $('h5#today-headline').html(`Today: ${getDesc('today')}`);
       $('h5#tomorrow-headline').html(`${today.getMonth() + 1}/${today.getDate() + 1}: ${getDesc('tomorrow')}`);
 
       skycons.play();
     });
   };
 
-  [initDate, initWeather, initPaBus, initPittBus].forEach(fn => fn.call());
+  [initDate, initWeather, initBus.bind(null, 'pabus'), initBus.bind(null, 'pittbus')].forEach(fn => fn.call());
 });
   </script>
 </body>

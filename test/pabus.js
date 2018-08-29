@@ -3,7 +3,7 @@ const nock = require('nock');
 const supertest = require('supertest');
 
 const getPabus = (cb) => {
-  process.env.PABUS_ID = '18894';
+  process.env.PABUS_IDS = '8653';
   process.env.PABUS_KEY = '';
   supertest(require('../lib/server'))
     .get('/api/pabus')
@@ -26,9 +26,13 @@ tap.test('correctly sends pabus response if success', (t) => {
 
     const expectedResponse = [
       {
-        destination: 'Downtown',
-        route: '83',
-        status: '11 Minutes'
+        'Sutherland Inbound': [
+          {
+            destination: 'Wharton Sq',
+            route: '83',
+            status: '13 Minutes'
+          }
+        ]
       }
     ];
 

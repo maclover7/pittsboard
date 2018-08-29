@@ -7,7 +7,7 @@ const ignoreQueryParams = (pathAndQuery) => {
 };
 
 const getPittbus = (cb) => {
-  process.env.PITTBUS_ID = 'Cathedral of Learning';
+  process.env.PITTBUS_IDS = 'Cathedral of Learning';
   process.env.PITTBUS_KEY = '';
 
   supertest(require('../lib/server'))
@@ -27,8 +27,12 @@ tap.test('correctly sends pittbus response if success', (t) => {
 
     const expectedResponse = [
       {
-        route: '1U North South Loop Outbound',
-        status: '19 minutes'
+        'Cathedral of Learning': [
+          {
+            route: '1U North South Loop',
+            status: '19 minutes'
+          }
+        ]
       }
     ];
 
