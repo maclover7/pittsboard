@@ -1,6 +1,6 @@
 FROM node:10.6.0
 
-RUN apt-get update -y && apt-get install -y ruby-full
+RUN apt-get update -y
 
 WORKDIR /app
 ADD . /app
