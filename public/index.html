@@ -72,11 +72,15 @@ $(document).ready(() => {
   const skycons = new Skycons();
   const today = new Date();
 
+  const busSvgForColor = (color) => {
+    return `<svg aria-hidden="true" data-prefix="fas" data-icon="bus" class="pdash-icon svg-inline--fa fa-bus fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="${color}" d="M488 128h-8V80c0-44.8-99.2-80-224-80S32 35.2 32 80v48h-8c-13.25 0-24 10.74-24 24v80c0 13.25 10.75 24 24 24h8v160c0 17.67 14.33 32 32 32v32c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-32h192v32c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-32h6.4c16 0 25.6-12.8 25.6-25.6V256h8c13.25 0 24-10.75 24-24v-80c0-13.26-10.75-24-24-24zM112 400c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm16-112c-17.67 0-32-14.33-32-32V128c0-17.67 14.33-32 32-32h256c17.67 0 32 14.33 32 32v128c0 17.67-14.33 32-32 32H128zm272 112c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32z"></path></svg>`;
+  };
+
   const initDate = () => {
     $('span#today-date').html(`${today.getMonth() + 1}/${today.getDate()}/${today.getYear() - 100}`);
   };
 
-  const initBus = (type) => {
+  const initBus = (type, color) => {
     const $container = $(`div#${type}`);
 
     $.getJSON(`/api/${type}`, (body, status, response) => {
@@ -89,7 +93,7 @@ $(document).ready(() => {
             $container.append(`<h6>No times.</h6>`);
           } else {
             busStops[busStop].slice(0, 5).forEach((bus) => {
-              var text = `<h6><image class="pdash-icon" src="bus-solid.svg" /> ${bus.status}: ${bus.route}`;
+              var text = `<h6>${busSvgForColor(color)} ${bus.status}: ${bus.route}`;
               if (bus.destination)
                  text += ` to ${bus.destination}`;
               text += `</h6>`;
@@ -129,7 +133,7 @@ $(document).ready(() => {
     });
   };
 
-  [initDate, initWeather, initBus.bind(null, 'pabus'), initBus.bind(null, 'pittbus')].forEach(fn => fn.call());
+  [initDate, initWeather, initBus.bind(null, 'pabus', 'grey'), initBus.bind(null, 'pittbus', '#1C2957')].forEach(fn => fn.call());
 });
   </script>
 </body>
