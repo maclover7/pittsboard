@@ -2,6 +2,7 @@
 
 <head>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="skycons.js"></script>
   <style>
@@ -26,7 +27,10 @@
 
 <body>
   <div class="container">
-    <h2 class="center">pida -- <span id="today-date"></span></h2>
+    <h2 class="center">
+      pida -- <span id="today-date"></span>
+      <i id="refresh" style="margin-left: 1%" class="fas fa-sync"></i>
+    </h2>
 
     <div class="row">
       <div class="col-md-6">
@@ -71,10 +75,6 @@ $(document).ready(() => {
   const skycons = new Skycons();
   const today = new Date();
 
-  const busSvgForColor = (color) => {
-    return `<svg aria-hidden="true" data-prefix="fas" data-icon="bus" class="pdash-icon svg-inline--fa fa-bus fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="${color}" d="M488 128h-8V80c0-44.8-99.2-80-224-80S32 35.2 32 80v48h-8c-13.25 0-24 10.74-24 24v80c0 13.25 10.75 24 24 24h8v160c0 17.67 14.33 32 32 32v32c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-32h192v32c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32v-32h6.4c16 0 25.6-12.8 25.6-25.6V256h8c13.25 0 24-10.75 24-24v-80c0-13.26-10.75-24-24-24zM112 400c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm16-112c-17.67 0-32-14.33-32-32V128c0-17.67 14.33-32 32-32h256c17.67 0 32 14.33 32 32v128c0 17.67-14.33 32-32 32H128zm272 112c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32z"></path></svg>`;
-  };
-
   const initDate = () => {
     $('span#today-date').html(`${today.getMonth() + 1}/${today.getDate()}/${today.getYear() - 100}`);
   };
@@ -92,7 +92,7 @@ $(document).ready(() => {
           $container.append(`<h6>No times.</h6>`);
         } else {
           stopGroup.buses.slice(0, 5).forEach((bus) => {
-            var text = `<h6>${busSvgForColor('#1C2957')} ${bus.status}: ${bus.route}`;
+            var text = `<h6><i style="color: #1C2957" class="fas fa-2x fa-bus"></i> ${bus.status}: ${bus.route}`;
             if (bus.destination)
                text += ` to ${bus.destination}`;
             text += `</h6>`;
@@ -109,8 +109,8 @@ $(document).ready(() => {
   const initWeather = () => {
     $.getJSON('/api/weather', (body, status, response) => {
       const getDesc = (key) => {
-        const temps = body[key].temps.map(Math.round).join(', ');
         skycons.add(`${key}-icon`, Skycons[body[key].icon]);
+        const temps = body[key].temps.map(Math.round).join(', ');
         return `${body[key].desc.split('.')[0]} (${temps})`;
       };
 
@@ -122,7 +122,14 @@ $(document).ready(() => {
     });
   };
 
-  [initDate, initWeather, initBus].forEach(fn => fn.call());
+  const initRefresh = () => {
+    $('i#refresh').on('click', (e) => {
+      e.preventDefault();
+      window.location.reload();
+    });
+  };
+
+  [initDate, initWeather, initBus, initRefresh].forEach(fn => fn.call());
 });
   </script>
 </body>
