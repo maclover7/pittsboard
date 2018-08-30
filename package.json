@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "lint": "eslint index.js lib/ test/",
+    "lint": "eslint index.js lib/ test/bus.js",
     "start": "node index.js",
     "test": "yarn run lint && tap test/*.js"
   },

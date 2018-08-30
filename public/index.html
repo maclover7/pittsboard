@@ -47,13 +47,15 @@
           <h5 id="tomorrow-headline"></h5>
         </div>
 
-        <!-- Shuttle -->
-        <div id="pittbus"></div>
+        <hr>
+
+        <!-- Bus 1 -->
+        <div id="bus1"></div>
       </div>
 
       <div class="col-md-6">
-        <!-- PA Bus -->
-        <div id="pabus"></div>
+        <!-- Bus 2 -->
+        <div id="bus2"></div>
       </div>
     </div>
 
@@ -80,28 +82,27 @@ $(document).ready(() => {
     $('span#today-date').html(`${today.getMonth() + 1}/${today.getDate()}/${today.getYear() - 100}`);
   };
 
-  const initBus = (type, color) => {
-    const $container = $(`div#${type}`);
+  const initBus = () => {
+    $.getJSON(`/api/bus`, (body, status, response) => {
+      $(`div#bus1`).html('');
+      $(`div#bus2`).html('');
 
-    $.getJSON(`/api/${type}`, (body, status, response) => {
-      $container.html('');
-      body.forEach((busStops) => {
-        Object.keys(busStops).forEach((busStop) => {
-          $container.append(`<h4 class='center'>${busStop}</h4>`);
+      body.forEach((stopGroup, index) => {
+        const $container = (index > 1) ? $('div#bus2') : $('div#bus1');
+        $container.append(`<h4 class='center'>${stopGroup.name}</h4>`);
 
-          if (busStops[busStop].length === 0) {
-            $container.append(`<h6>No times.</h6>`);
-          } else {
-            busStops[busStop].slice(0, 5).forEach((bus) => {
-              var text = `<h6>${busSvgForColor(color)} ${bus.status}: ${bus.route}`;
-              if (bus.destination)
-                 text += ` to ${bus.destination}`;
-              text += `</h6>`;
+        if (stopGroup.buses.length === 0) {
+          $container.append(`<h6>No times.</h6>`);
+        } else {
+          stopGroup.buses.slice(0, 5).forEach((bus) => {
+            var text = `<h6>${busSvgForColor('#1C2957')} ${bus.status}: ${bus.route}`;
+            if (bus.destination)
+               text += ` to ${bus.destination}`;
+            text += `</h6>`;
 
-              $container.append(text);
-            });
-          }
-        });
+            $container.append(text);
+          });
+        }
       });
     });
   };
@@ -122,7 +123,7 @@ $(document).ready(() => {
     });
   };
 
-  [initDate, initWeather, initBus.bind(null, 'pabus', 'grey'), initBus.bind(null, 'pittbus', '#1C2957')].forEach(fn => fn.call());
+  [initDate, initWeather, initBus].forEach(fn => fn.call());
 });
   </script>
 </body>
