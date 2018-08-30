@@ -47,17 +47,17 @@
         <!-- Weather -->
         <div class="pdash-daywrapper">
           <canvas class="pdash-icon" id="now-icon"></canvas>
-          <h5 id="now-headline"></h5>
+          <h6 id="now-headline"></h6>
         </div>
 
         <div class="pdash-daywrapper">
           <canvas class="pdash-icon" id="today-icon"></canvas>
-          <h5 id="today-headline"></h5>
+          <h6 id="today-headline"></h6>
         </div>
 
         <div class="pdash-daywrapper">
           <canvas class="pdash-icon" id="tomorrow-icon"></canvas>
-          <h5 id="tomorrow-headline"></h5>
+          <h6 id="tomorrow-headline"></h6>
         </div>
 
         <hr>
@@ -124,9 +124,9 @@ $(document).ready(() => {
         return `${body[key].desc.split('.')[0]} (${temps})`;
       };
 
-      $('h5#now-headline').html(`Now: ${getDesc('now')}`);
-      $('h5#today-headline').html(`Today: ${getDesc('today')}`);
-      $('h5#tomorrow-headline').html(`${today.getMonth() + 1}/${today.getDate() + 1}: ${getDesc('tomorrow')}`);
+      $('h6#now-headline').html(`Now: ${getDesc('now')}`);
+      $('h6#today-headline').html(`Today: ${getDesc('today')}`);
+      $('h6#tomorrow-headline').html(`${today.getMonth() + 1}/${today.getDate() + 1}: ${getDesc('tomorrow')}`);
 
       skycons.play();
     });
