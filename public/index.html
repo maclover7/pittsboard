@@ -7,7 +7,6 @@
   <style>
 .pdash-icon {
   display: inline-block;
-  margin-right: 2%;
   width: 85px;
   height: 35px;
 }
@@ -59,8 +58,6 @@
       </div>
     </div>
 
-    <hr>
-
     <div class="row">
       <p>
         Created by Jon Moss.
@@ -103,6 +100,8 @@ $(document).ready(() => {
             $container.append(text);
           });
         }
+
+        $container.append('<hr>');
       });
     });
   };
