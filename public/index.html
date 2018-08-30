@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="skycons.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   <style>
 .pdash-icon {
   display: inline-block;
@@ -73,9 +74,26 @@
     </div>
 
     <div class="row">
+      <div class="modal fade" id="licenseModal" tabindex="-1" role="dialog" aria-labelledby="licenseModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="licenseModalLabel">Licenses</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Font Awesome use is under the <a href="https://fontawesome.com/license">CCA 4.0 International license</a>.</p>
+              <p>Reproduced with permission granted by Port Authority of Allegheny County (PAAC). The information has been provided by means of a nonexclusive, limited, and revocable license granted by PAAC. PAAC does not guarantee the accuracy, adequacy, completeness, or usefulness of any information. PAAC provides this information "as is" without warranty of any kind, express or implied, including, but not limited to, warranties of merchantability or fitness for a particular purpose and assumes no responsibility for anyones use of the information.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <p>
         Created by Jon Moss.
-        Font Awesome use is under the <a href="https://fontawesome.com/license">CCA 4.0 International license</a>.
+        <a href="" data-toggle="modal" data-target="#licenseModal">View licensing information</a>.
       </p>
     </div>
   </div>
