@@ -109,20 +109,9 @@ $(document).ready(() => {
   const initWeather = () => {
     $.getJSON('/api/weather', (body, status, response) => {
       const getDesc = (key) => {
-        var temps = [];
-        if (!body[key].temp) {
-          temps = [body[key].high, body[key].low];
-        } else {
-          temps = [body[key].temp];
-        }
-        temps = temps.map(Math.round).join(', ');
-
+        const temps = body[key].temps.map(Math.round).join(', ');
         skycons.add(`${key}-icon`, Skycons[body[key].icon]);
-
-        return `
-          ${body[key].desc.split('.')[0]}
-          (${temps})
-        `;
+        return `${body[key].desc.split('.')[0]} (${temps})`;
       };
 
       $('h5#now-headline').html(`Now: ${getDesc('now')}`);

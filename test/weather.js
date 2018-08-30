@@ -22,19 +22,17 @@ tap.test('correctly sends weather response if success', (t) => {
       now: {
         desc: 'Mostly Cloudy',
         icon: 'PARTLY_CLOUDY_DAY',
-        temp: 75.18
+        temps: [75.18]
       },
       today: {
         desc: 'Rain starting in the evening.',
-        high: 82.61,
-        icon: 'RAIN',
-        low: 67.02,
+        temps: [82.61, 67.02],
+        icon: 'RAIN'
       },
       tomorrow: {
         desc: 'Mostly cloudy throughout the day.',
-        high: 88.27,
-        icon: 'PARTLY_CLOUDY_DAY',
-        low: 71.26
+        temps: [88.27, 71.26],
+        icon: 'PARTLY_CLOUDY_DAY'
       }
     };
 
