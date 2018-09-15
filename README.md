@@ -1,6 +1,6 @@
 # pida
 
-A cool web interface from.
+A cool tool that helps you get around the 'Burgh.
 
 ### Usage
 
