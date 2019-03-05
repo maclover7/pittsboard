@@ -76,21 +76,26 @@ tap.test('correctly sends bus response if success', (t) => {
             status: '13 Minutes'
           }
         ],
-        name: 'Forbes @ Oakland Ave'
+        name: 'Fifth Opp Thackeray Ave'
       },
       {
         buses: [
           {
             destination: 'Wharton Sq',
             route: '83',
-            status: '13 Minutes',
+            status: '13 Minutes'
+          },
+          {
+            destination: 'Wharton Sq',
+            route: '83',
+            status: '13 Minutes'
           }
         ],
-        name: 'Forbes past Bouquet St'
+        name: 'Forbes @ Oakland Ave / Bigelow Blvd'
       }
     ];
 
-    t.strictSame(expectedResponse, res.body);
+    t.strictSame(res.body, expectedResponse);
     t.end();
   });
 });
@@ -112,7 +117,7 @@ tap.test('correctly sends bus response if error', (t) => {
 
   getBus((err, res) => {
     t.equal(500, res.statusCode);
-    t.strictSame([], res.body);
+    t.strictSame(res.body, []);
     t.end();
   });
 });
