@@ -165,7 +165,7 @@ $(document).ready(() => {
   };
 
   const initBus = () => {
-    $.getJSON(`/api/bus`, (body, status, response) => {
+    $.getJSON(`/api/bus?path=${window.location.pathname}`, (body, status, response) => {
       $(`div#bus1`).html('');
       $(`div#bus2`).html('');
 
