@@ -1,4 +1,4 @@
-FROM node:10.6.0
+FROM node:12.0.0
 
 RUN apt-get update -y
 
