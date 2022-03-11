@@ -1,8 +1,8 @@
 {
-  "name": "pida",
+  "name": "pittsboard",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:maclover7/papi.git",
+  "repository": "git@github.com:maclover7/pittsboard.git",
   "author": "Jon Moss <me@jonathanmoss.me>",
   "license": "MIT",
   "private": false,
