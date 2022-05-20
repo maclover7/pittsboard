@@ -1,13 +1,8 @@
 const tap = require('tap');
 const nock = require('nock');
-const supertest = require('supertest');
 
-const getWeather = (cb) => {
-  process.env.DARK_SKY_KEY = 'testkey';
-  supertest(require('../lib/server'))
-    .get('/api/weather')
-    .end(cb);
-};
+process.env.DARK_SKY_KEY = 'testkey';
+const server = require('../lib/server');
 
 tap.test('correctly sends weather response if success', (t) => {
   const successFixture = require('fs').readFileSync('./test/weather_success.json').toString();
@@ -15,7 +10,10 @@ tap.test('correctly sends weather response if success', (t) => {
     .get('/forecast/testkey/40.4442663,-79.95328589999997')
     .reply(200, successFixture);
 
-  getWeather((err, res) => {
+  server.inject({
+    method: 'GET',
+    url: '/api/weather'
+  }, (err, res) => {
     t.equal(200, res.statusCode);
 
     const expectedResponse = {
@@ -36,7 +34,7 @@ tap.test('correctly sends weather response if success', (t) => {
       }
     };
 
-    t.strictSame(expectedResponse, res.body);
+    t.strictSame(expectedResponse, JSON.parse(res.body));
     t.end();
   });
 });
@@ -46,9 +44,12 @@ tap.test('correctly sends weather response if error', (t) => {
     .get('/forecast/testkey/40.4442663,-79.95328589999997')
     .reply(500, JSON.stringify({}));
 
-  getWeather((err, res) => {
+  server.inject({
+    method: 'GET',
+    url: '/api/weather'
+  }, (err, res) => {
     t.equal(500, res.statusCode);
-    t.strictSame({}, res.body);
+    t.strictSame({}, JSON.parse(res.body));
     t.end();
   });
 });
