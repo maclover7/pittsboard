@@ -1,9 +1,9 @@
-const tap = require('tap');
-
 const axios = require('axios');
 const MockAdapter = require('axios-mock-adapter');
-const mock = new MockAdapter(axios);
+const { readFileSync } = require('fs');
+const tap = require('tap');
 
+const mock = new MockAdapter(axios);
 const busUrl = 'https://truetime.portauthority.org/bustime/api/v3/getpredictions?format=json&key=testkey&rtpidatafeed=Port+Authority+Bus&stpid=2633%2C2573';
 const railUrl = 'https://truetime.portauthority.org/bustime/api/v3/getpredictions?format=json&key=testkey&rtpidatafeed=Light+Rail&stpid=99995%2C98881';
 
@@ -11,15 +11,15 @@ process.env.PABUS_KEY = 'testkey';
 const server = require('../lib/server');
 
 tap.test('correctly sends bus response if success', (t) => {
-  const busSuccessFixture = require('fs').readFileSync('./test/bus_success.json').toString();
+  const busSuccessFixture = readFileSync('./test/bus_success.json').toString();
   mock.onGet(busUrl).reply(200, busSuccessFixture);
 
-  const railSuccessFixture = require('fs').readFileSync('./test/rail_success.json').toString();
+  const railSuccessFixture = readFileSync('./test/rail_success.json').toString();
   mock.onGet(railUrl).reply(200, railSuccessFixture);
 
   server.inject({
     method: 'GET',
-    url: '/api/bus'
+    url: '/api/bus',
   }, (err, res) => {
     t.equal(200, res.statusCode);
 
@@ -30,35 +30,35 @@ tap.test('correctly sends bus response if success', (t) => {
             destination: 'Lawrenceville',
             route: '93',
             status: 'DUE',
-            stopId: 2573
+            stopId: 2573,
           },
           {
             destination: 'Negley',
             route: '71A',
             status: '9 minutes',
-            stopId: 2573
+            stopId: 2573,
           },
           {
             destination: 'Point Breeze',
             route: '71C',
             status: '13 minutes',
-            stopId: 2573
+            stopId: 2573,
           },
           {
             destination: 'Negley',
             route: '71A',
             status: '24 minutes',
-            stopId: 2573
+            stopId: 2573,
           },
           {
             destination: 'North Side Via Polish Hill',
             route: '54',
             status: '25 minutes',
-            stopId: 2573
-          }
+            stopId: 2573,
+          },
         ],
         name: 'Craig & Centre EE',
-        stopId: 2573
+        stopId: 2573,
       },
       {
         buses: [
@@ -66,29 +66,29 @@ tap.test('correctly sends bus response if success', (t) => {
             destination: 'Downtown',
             route: '71C',
             status: '7 minutes',
-            stopId: 2633
+            stopId: 2633,
           },
           {
             destination: 'South Side to Bon Air',
             route: '54',
             status: '7 minutes',
-            stopId: 2633
+            stopId: 2633,
           },
           {
             destination: 'Hazelwood',
             route: '93',
             status: '26 minutes',
-            stopId: 2633
+            stopId: 2633,
           },
           {
             destination: 'South Side - SHJ',
             route: '54',
             status: '28 minutes',
-            stopId: 2633
-          }
+            stopId: 2633,
+          },
         ],
         name: 'Craig & Centre DT',
-        stopId: 2633
+        stopId: 2633,
       },
       {
         buses: [
@@ -96,23 +96,23 @@ tap.test('correctly sends bus response if success', (t) => {
             destination: 'Downtown - North Shore',
             route: 'SLVR',
             status: '3 minutes',
-            stopId: 99995
+            stopId: 99995,
           },
           {
             destination: 'Downtown - North Shore',
             route: 'BLUE',
             status: '21 minutes',
-            stopId: 99995
+            stopId: 99995,
           },
           {
             destination: 'Downtown - North Shore',
             route: 'RED',
             status: '21 minutes',
-            stopId: 99995
-          }
+            stopId: 99995,
+          },
         ],
         name: 'Steel Plaza N',
-        stopId: 99995
+        stopId: 99995,
       },
       {
         buses: [
@@ -120,18 +120,18 @@ tap.test('correctly sends bus response if success', (t) => {
             destination: 'South Hills Village ',
             route: 'RED',
             status: '14 minutes',
-            stopId: 98881
+            stopId: 98881,
           },
           {
             destination: 'Library',
             route: 'SLVR',
             status: '19 minutes',
-            stopId: 98881
-          }
+            stopId: 98881,
+          },
         ],
         name: 'North Side S',
-        stopId: 98881
-      }
+        stopId: 98881,
+      },
     ];
 
     t.strictSame(JSON.parse(res.body), expectedResponse);
@@ -145,7 +145,7 @@ tap.test('correctly sends bus response if error', (t) => {
 
   server.inject({
     method: 'GET',
-    url: '/api/bus'
+    url: '/api/bus',
   }, (err, res) => {
     t.equal(500, res.statusCode);
     t.strictSame(JSON.parse(res.body), []);
