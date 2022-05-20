@@ -1,16 +1,10 @@
 const tap = require('tap');
 const nock = require('nock');
-const supertest = require('supertest');
 
-const getBus = (cb) => {
-  supertest(require('../lib/server'))
-    .get('/api/bus')
-    .end(cb);
-};
+process.env.PABUS_KEY = 'testkey';
+const server = require('../lib/server');
 
-const ignoreQueryParams = (pathAndQuery) => {
-  return require('url').parse(pathAndQuery, true).pathname;
-};
+const ignoreQueryParams = (pathAndQuery) => require('url').parse(pathAndQuery, true).pathname;
 
 tap.test('correctly sends bus response if success', (t) => {
   const busSuccessFixture = require('fs').readFileSync('./test/bus_success.json').toString();
@@ -27,7 +21,10 @@ tap.test('correctly sends bus response if success', (t) => {
     .times(1)
     .reply(200, railSuccessFixture);
 
-  getBus((err, res) => {
+  server.inject({
+    method: 'GET',
+    url: '/api/bus'
+  }, (err, res) => {
     t.equal(200, res.statusCode);
 
     const expectedResponse = [
@@ -141,7 +138,7 @@ tap.test('correctly sends bus response if success', (t) => {
       }
     ];
 
-    t.strictSame(res.body, expectedResponse);
+    t.strictSame(JSON.parse(res.body), expectedResponse);
     t.end();
   });
 });
@@ -154,9 +151,12 @@ tap.test('correctly sends bus response if error', (t) => {
     .times(2)
     .reply(500, '');
 
-  getBus((err, res) => {
+  server.inject({
+    method: 'GET',
+    url: '/api/bus'
+  }, (err, res) => {
     t.equal(500, res.statusCode);
-    t.strictSame(res.body, []);
+    t.strictSame(JSON.parse(res.body), []);
     t.end();
   });
 });
