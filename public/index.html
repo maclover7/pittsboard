@@ -104,11 +104,11 @@
       };
 
       const initBus = () => {
-        $.getJSON(`/api/bus?path=${window.location.pathname}`, (body, status, response) => {
+        $.getJSON(`/api/bus`, (stopGroups) => {
           $(`div#bus1`).html('');
           $(`div#bus2`).html('');
 
-          body.forEach((stopGroup, index) => {
+          stopGroups.forEach((stopGroup, index) => {
             const $container = (index > 1) ? $('div#bus2') : $('div#bus1');
             $container.append(`<h4 class='center'>${stopGroup.name}</h4>`);
 
@@ -126,11 +126,12 @@
       };
 
       const initWeather = () => {
-        $.getJSON('/api/weather', (body, status, response) => {
+        $.getJSON('/api/weather', (response) => {
           const getDesc = (key) => {
-            skycons.add(`${key}-icon`, Skycons[body[key].icon]);
-            const temps = body[key].temps.map(Math.round).join(', ');
-            return `${body[key].desc.split('.')[0]} (${temps})`;
+            const dayInfo = response[key];
+            skycons.add(`${key}-icon`, Skycons[dayInfo.icon]);
+            const temps = dayInfo.temps.map(Math.round).join(', ');
+            return `${dayInfo.desc.split('.')[0]} (${temps})`;
           };
 
           $('h6#now-headline').html(`Now: ${getDesc('now')}`);
@@ -141,7 +142,7 @@
         });
       };
 
-      [initDate, initWeather, initBus].forEach(fn => fn.call());
+      [initDate, initBus, initWeather].forEach(fn => fn.call());
     });
   </script>
 </body>
