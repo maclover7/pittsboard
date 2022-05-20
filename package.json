@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "lint": "eslint index.js lib/ test/bus.js",
+    "lint": "eslint index.js lib/ test/",
     "start": "node index.js",
     "test": "tap test/*.js --functions=80 --branches=80 --statements=80"
   },
@@ -22,7 +22,9 @@
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.20.0",
-    "eslint": "^7.26.0",
+    "eslint": "^7.32.0 || ^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.2",
     "tap": "^15.0.9"
   }
 }
