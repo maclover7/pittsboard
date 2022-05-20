@@ -1,14 +1,15 @@
 const tap = require('tap');
-const nock = require('nock');
+
+const axios = require("axios");
+const MockAdapter = require("axios-mock-adapter");
+const mock = new MockAdapter(axios);
 
 process.env.DARK_SKY_KEY = 'testkey';
 const server = require('../lib/server');
 
 tap.test('correctly sends weather response if success', (t) => {
   const successFixture = require('fs').readFileSync('./test/weather_success.json').toString();
-  nock('https://api.darksky.net')
-    .get('/forecast/testkey/40.4442663,-79.95328589999997')
-    .reply(200, successFixture);
+  mock.onGet("https://api.darksky.net/forecast/testkey/40.4442663,-79.95328589999997").reply(200, successFixture);
 
   server.inject({
     method: 'GET',
@@ -40,9 +41,7 @@ tap.test('correctly sends weather response if success', (t) => {
 });
 
 tap.test('correctly sends weather response if error', (t) => {
-  nock('https://api.darksky.net')
-    .get('/forecast/testkey/40.4442663,-79.95328589999997')
-    .reply(500, JSON.stringify({}));
+  mock.onGet("https://api.darksky.net/forecast/testkey/40.4442663,-79.95328589999997").reply(500);
 
   server.inject({
     method: 'GET',
