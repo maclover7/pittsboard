@@ -23,7 +23,6 @@
   "devDependencies": {
     "axios-mock-adapter": "^1.20.0",
     "eslint": "^7.26.0",
-    "nock": "^13.0.11",
     "tap": "^15.0.9"
   }
 }
