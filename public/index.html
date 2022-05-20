@@ -21,6 +21,7 @@
     }
 
     .center { text-align: center; }
+    .fas { color: black; }
   </style>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-58452343-11"></script>
@@ -95,53 +96,54 @@
   </div>
 
   <script>
-$(document).ready(() => {
-  const skycons = new Skycons();
-  const today = new Date();
+    $(document).ready(() => {
+      const skycons = new Skycons();
+      const today = new Date();
 
-  const initDate = () => {
-    $('span#today-date').html(`${today.getMonth() + 1}/${today.getDate()}/${today.getYear() - 100}`);
-  };
-
-  const initBus = () => {
-    $.getJSON(`/api/bus?path=${window.location.pathname}`, (body, status, response) => {
-      $(`div#bus1`).html('');
-      $(`div#bus2`).html('');
-
-      body.forEach((stopGroup, index) => {
-        const $container = (index > 1) ? $('div#bus2') : $('div#bus1');
-        $container.append(`<h4 class='center'>${stopGroup.name}</h4>`);
-
-        if (stopGroup.buses.length === 0) {
-          $container.append(`<h6>No times.</h6>`);
-        } else {
-          stopGroup.buses.slice(0, 5).forEach((bus) => {
-            $container.append(`<h6><i style="color: black" class="fas fa-2x fa-bus"></i> ${bus.status}: ${bus.route} to ${bus.destination}</h6>`);
-          });
-        }
-
-        $container.append('<hr>');
-      });
-    });
-  };
-
-  const initWeather = () => {
-    $.getJSON('/api/weather', (body, status, response) => {
-      const getDesc = (key) => {
-        skycons.add(`${key}-icon`, Skycons[body[key].icon]);
-        const temps = body[key].temps.map(Math.round).join(', ');
-        return `${body[key].desc.split('.')[0]} (${temps})`;
+      const initDate = () => {
+        $('span#today-date').html(`${today.getMonth() + 1}/${today.getDate()}/${today.getYear() - 100}`);
       };
 
-      $('h6#now-headline').html(`Now: ${getDesc('now')}`);
-      $('h6#today-headline').html(`Today: ${getDesc('today')}`);
-      $('h6#tomorrow-headline').html(`${today.getMonth() + 1}/${today.getDate() + 1}: ${getDesc('tomorrow')}`);
+      const initBus = () => {
+        $.getJSON(`/api/bus`, (stopGroups) => {
+          $(`div#bus1`).html('');
+          $(`div#bus2`).html('');
 
-      skycons.play();
+          stopGroups.forEach((stopGroup, index) => {
+            const $container = (index > 1) ? $('div#bus2') : $('div#bus1');
+            $container.append(`<h4 class='center'>${stopGroup.name}</h4>`);
+
+            if (stopGroup.buses.length === 0) {
+              $container.append(`<h6>No times.</h6>`);
+            } else {
+              stopGroup.buses.slice(0, 5).forEach((bus) => {
+                $container.append(`<h6><i class="fas fa-2x fa-bus"></i> ${bus.status}: ${bus.route} to ${bus.destination}</h6>`);
+              });
+            }
+
+            $container.append('<hr>');
+          });
+        });
+      };
+
+      const initWeather = () => {
+        $.getJSON('/api/weather', (response) => {
+          const getDesc = (key) => {
+            const dayInfo = response[key];
+            skycons.add(`${key}-icon`, Skycons[dayInfo.icon]);
+            const temps = dayInfo.temps.map(Math.round).join(', ');
+            return `${dayInfo.desc.split('.')[0]} (${temps})`;
+          };
+
+          $('h6#now-headline').html(`Now: ${getDesc('now')}`);
+          $('h6#today-headline').html(`Today: ${getDesc('today')}`);
+          $('h6#tomorrow-headline').html(`${today.getMonth() + 1}/${today.getDate() + 1}: ${getDesc('tomorrow')}`);
+
+          skycons.play();
+        });
+      };
+
+      [initDate, initBus, initWeather].forEach(fn => fn.call());
     });
-  };
-
-  [initDate, initWeather, initBus].forEach(fn => fn.call());
-});
   </script>
 </body>
