@@ -13,19 +13,19 @@ const ignoreQueryParams = (pathAndQuery) => {
 };
 
 tap.test('correctly sends bus response if success', (t) => {
-  const paBusSuccessFixture = require('fs').readFileSync('./test/pabus_success.xml').toString();
-  nock('http://truetime.portauthority.org')
+  const busSuccessFixture = require('fs').readFileSync('./test/bus_success.json').toString();
+  nock('https://truetime.portauthority.org')
     .filteringPath(ignoreQueryParams)
-    .get('/bustime/eta/getStopPredictionsETA.jsp')
-    .times(5)
-    .reply(200, paBusSuccessFixture);
-
-  const pittBusSuccessFixture = require('fs').readFileSync('./test/pittbus_success.json').toString();
-  nock('http://www.pittshuttle.com')
-    .filteringPath(ignoreQueryParams)
-    .get('/Services/JSONPRelay.svc/GetMapStopEstimates')
+    .get('/bustime/api/v3/getpredictions')
     .times(1)
-    .reply(200, pittBusSuccessFixture);
+    .reply(200, busSuccessFixture);
+
+  const railSuccessFixture = require('fs').readFileSync('./test/rail_success.json').toString();
+  nock('https://truetime.portauthority.org')
+    .filteringPath(ignoreQueryParams)
+    .get('/bustime/api/v3/getpredictions')
+    .times(1)
+    .reply(200, railSuccessFixture);
 
   getBus((err, res) => {
     t.equal(200, res.statusCode);
@@ -34,64 +34,110 @@ tap.test('correctly sends bus response if success', (t) => {
       {
         buses: [
           {
-            route: '1U North South Loop',
-            status: '24 minutes'
+            destination: 'Lawrenceville',
+            route: '93',
+            status: 'DUE',
+            stopId: 2573
           },
           {
-            route: '1U North South Loop',
-            status: 'an hour'
+            destination: 'Negley',
+            route: '71A',
+            status: '9 minutes',
+            stopId: 2573
           },
           {
-            destination: 'Wharton Sq',
-            route: '83',
-            status: '13 Minutes'
+            destination: 'Point Breeze',
+            route: '71C',
+            status: '13 minutes',
+            stopId: 2573
+          },
+          {
+            destination: 'Negley',
+            route: '71A',
+            status: '24 minutes',
+            stopId: 2573
+          },
+          {
+            destination: 'North Side Via Polish Hill',
+            route: '54',
+            status: '25 minutes',
+            stopId: 2573
           }
         ],
-        name: 'Sutherland Hall'
+        name: 'Craig @ Centre EE',
+        stopId: 2573
       },
       {
         buses: [
           {
-            route: '1U North South Loop',
+            destination: 'Downtown',
+            route: '71C',
+            status: '7 minutes',
+            stopId: 2633
+          },
+          {
+            destination: 'South Side to Bon Air',
+            route: '54',
+            status: '7 minutes',
+            stopId: 2633
+          },
+          {
+            destination: 'Hazelwood',
+            route: '93',
+            status: '26 minutes',
+            stopId: 2633
+          },
+          {
+            destination: 'South Side - SHJ',
+            route: '54',
+            status: '28 minutes',
+            stopId: 2633
+          }
+        ],
+        name: 'Craig @ Centre DT',
+        stopId: 2633
+      },
+      {
+        buses: [
+          {
+            destination: 'Downtown - North Shore',
+            route: 'SLVR',
+            status: '3 minutes',
+            stopId: 99995
+          },
+          {
+            destination: 'Downtown - North Shore',
+            route: 'BLUE',
+            status: '21 minutes',
+            stopId: 99995
+          },
+          {
+            destination: 'Downtown - North Shore',
+            route: 'RED',
+            status: '21 minutes',
+            stopId: 99995
+          }
+        ],
+        name: 'Steel Plaza N',
+        stopId: 99995
+      },
+      {
+        buses: [
+          {
+            destination: 'South Hills Village ',
+            route: 'RED',
+            status: '14 minutes',
+            stopId: 98881
+          },
+          {
+            destination: 'Library',
+            route: 'SLVR',
             status: '19 minutes',
+            stopId: 98881
           }
         ],
-        name: 'Cathedral of Learning'
-      },
-      {
-        buses: [
-          {
-            destination: 'Wharton Sq',
-            route: '83',
-            status: '13 Minutes'
-          }
-        ],
-        name: 'Fifth @ Thackeray Ave'
-      },
-      {
-        buses: [
-          {
-            destination: 'Wharton Sq',
-            route: '83',
-            status: '13 Minutes'
-          }
-        ],
-        name: 'Fifth Opp Thackeray Ave'
-      },
-      {
-        buses: [
-          {
-            destination: 'Wharton Sq',
-            route: '83',
-            status: '13 Minutes'
-          },
-          {
-            destination: 'Wharton Sq',
-            route: '83',
-            status: '13 Minutes'
-          }
-        ],
-        name: 'Forbes @ Oakland Ave / Bigelow Blvd'
+        name: 'North Side S',
+        stopId: 98881
       }
     ];
 
@@ -101,18 +147,11 @@ tap.test('correctly sends bus response if success', (t) => {
 });
 
 tap.test('correctly sends bus response if error', (t) => {
-  nock('http://truetime.portauthority.org')
+  nock('https://truetime.portauthority.org')
     .persist()
     .filteringPath(ignoreQueryParams)
-    .get('/bustime/eta/getStopPredictionsETA.jsp')
-    .times(5)
-    .reply(500, '');
-
-  nock('http://www.pittshuttle.com')
-    .persist()
-    .filteringPath(ignoreQueryParams)
-    .get('/Services/JSONPRelay.svc/GetMapStopEstimates')
-    .times(1)
+    .get('/bustime/api/v3/getpredictions')
+    .times(2)
     .reply(500, '');
 
   getBus((err, res) => {

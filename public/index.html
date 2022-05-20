@@ -19,9 +19,7 @@
       margin-bottom: .5rem;
     }
 
-    .center {
-      text-align: center;
-    }
+    .center { text-align: center; }
   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -43,64 +41,6 @@
 
     <div class="row">
       <div class="col-md-6">
-        <!-- Directions Modal -->
-        <div class="modal fade" id="directionsModal" tabindex="-1" role="dialog" aria-labelledby="directionsModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="directionsModalLabel">Get Directions</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-
-              <div class="modal-body">
-                <form id="directions-form">
-                  <div class="form-group">
-                    <label for="fromSelect">From</label>
-                    <select name="from" class="form-control" id="fromSelect">
-                      <option>Sutherland</option>
-                      <option>Cathy</option>
-                      <option>Towers</option>
-                      <option>South Side</option>
-                      <option>Downtown</option>
-                      <option>Heinz Field</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="toSelect">To</label>
-                    <select name="to" class="form-control" id="toSelect">
-                      <option>Sutherland</option>
-                      <option default="yes">Cathy</option>
-                      <option>Towers</option>
-                      <option>South Side</option>
-                      <option>Downtown</option>
-                      <option>Heinz Field</option>
-                    </select>
-                  </div>
-
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-
-                <br>
-
-                <div id="directions-body"></div>
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="center">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#directionsModal">
-            Quick Directions
-          </button>
-        </div>
-
         <!-- Weather -->
         <div class="pdash-daywrapper">
           <canvas class="pdash-icon" id="now-icon"></canvas>
@@ -176,12 +116,7 @@ $(document).ready(() => {
           $container.append(`<h6>No times.</h6>`);
         } else {
           stopGroup.buses.slice(0, 5).forEach((bus) => {
-            var text = `<h6><i style="color: black" class="fas fa-2x fa-bus"></i> ${bus.status}: ${bus.route}`;
-            if (bus.destination)
-               text += ` to ${bus.destination}`;
-            text += `</h6>`;
-
-            $container.append(text);
+            $container.append(`<h6><i style="color: black" class="fas fa-2x fa-bus"></i> ${bus.status}: ${bus.route} to ${bus.destination}</h6>`);
           });
         }
 
@@ -206,191 +141,7 @@ $(document).ready(() => {
     });
   };
 
-  const initDirections = () => {
-    const cathyOrTowers = ['Cathy', 'Towers'];
-    const directionsMap = {
-      "Sutherland": {
-        "Cathy": ["Take the 10A or 10B Pitt shuttle."],
-        "Towers": ["Take the 10A or 10B Pitt shuttle."],
-        "South Side": [
-          "Walk to Allequippa @ Sutherland St.",
-          "Take the 83 towards Wharton Sq.",
-          "Exit at E Carson St @ S 22 St and walk to S 27 St."
-        ],
-        "Downtown": [
-          "Walk down to Fifth Ave @ DeSoto St.",
-          "Take the 61 or 71 bus towards downtown."
-        ],
-        "Heinz Field": [
-          "Walk down to Fifth Ave @ DeSoto St.",
-          "Take the 61 or 71 bus towards downtown.",
-          "Exit at Sixth Ave @ Bigelow, and cross to the Steel Plaza T station.",
-          "Take the T to Allegheny Station."
-        ]
-      },
-      "Cathy": {
-        "Sutherland": ["Take the 10A or 10B Pitt shuttle."],
-        "South Side": [
-          "Walk to Fifth Ave @ Thackeray Ave.",
-          "Take the 75 towards South Side.",
-          "Exit at Sidney St @ S 28 St."
-        ],
-        "Downtown": [
-          "Walk to Fifth Avenue @ Thackeray Ave.",
-          "Take the 61 or 71 bus towards downtown."
-        ],
-        "Heinz Field": [
-          "Walk to Fifth Avenue @ Thackeray Ave.",
-          "Take the 61 or 71 bus towards downtown.",
-          "Exit at Sixth Ave @ Bigelow, and cross to the Steel Plaza T station.",
-          "Take the T to Allegheny Station."
-        ]
-      },
-      "Towers": {
-        "Sutherland": ["Walk to Cathy and take the 10A or 10B Pitt shuttle."],
-        "South Side": [
-          "Walk to Fifth Ave @ Thackeray Ave.",
-          "Take the 75 towards South Side.",
-          "Exit at Sidney St @ S 28 St."
-        ],
-        "Downtown": [
-          "Walk to Fifth Avenue @ Thackeray Ave.",
-          "Take the 61 or 71 bus towards downtown."
-        ],
-        "Heinz Field": [
-          "Walk to Fifth Avenue @ Thackeray Ave.",
-          "Take the 61 or 71 bus towards downtown.",
-          "Exit at Sixth Ave @ Bigelow, and cross to the Steel Plaza T station.",
-          "Take the T to Allegheny Station."
-        ]
-      },
-      "South Side": {
-        "Cathy": [
-          "Walk to E Carson St @ S 28 St.",
-          "Take the 75 bus towards Ellsworth",
-          "Exit at Fifth Ave @ Bigelow Blvd."
-        ],
-        "Sutherland": [
-          "Walk to E Carson St @ S 28 St.",
-          "Take the 75 bus towards Ellsworth",
-          "Exit at Fifth Ave @ Bigelow Blvd, and cross to Cathy",
-          "Take the 10A or 10B Pitt shuttle."
-        ],
-        "Towers": [
-          "Walk to E Carson St @ S 28 St.",
-          "Take the 75 bus towards Ellsworth",
-          "Exit at Fifth Ave @ Thackeray Ave."
-        ],
-        "Downtown": [
-          "Walk to E Carson St @ S 26 St.",
-          "Take the 48 bus towards downtown.",
-          "Exit at Sixth Ave @ Smithfield St."
-        ],
-        "Heinz Field": [
-          "Walk to E Carson St @ S 26 St.",
-          "Take the 48 bus towards downtown.",
-          "Exit at Sixth Ave @ Wood St, and cross to the Wood St T station.",
-          "Take the T to Allegheny Station."
-        ]
-      },
-      "Downtown": {
-        "Cathy": [
-          "Walk to Fifth Ave @ Wood St or Fifth Ave @ Ross St.",
-          "Take the 61 of 71 bus towards Oakland.",
-          "Exit at Forbes or Fifth Ave @ Bigelow Blvd."
-        ],
-        "Sutherland": [
-          "Walk to Fifth Ave @ Wood St or Fifth Ave @ Ross St.",
-          "Take the 61 of 71 bus towards Oakland.",
-          "Exit at Forbes or Fifth Ave @ Bigelow Blvd, and cross to Cathy.",
-          "Take the 10A or 10B Pitt shuttle."
-        ],
-        "Towers": [
-          "Walk to Fifth Ave @ Wood St or Fifth Ave @ Ross St.",
-          "Take the 61 of 71 bus towards Oakland.",
-          "If 61: Exit at Forbes Ave past S Boquet St.",
-          "If 71: Exit at Fifth Ave @ Thackeray Ave."
-        ],
-        "South Side": [
-          "Walk to Sixth Ave @ Wood St",
-          "Take the 48 towards South Side.",
-          "Exit at E Carson St @ S 26 St."
-        ],
-        "Heinz Field": [
-          "Walk to Wood St or Steel Plaza T stations.",
-          "Take the T to Allegheny Station."
-        ]
-      },
-      "Heinz Field": {
-        "Cathy": [
-          "Walk to Allegheny T station.",
-          "Take the T downtown and exit at Steel Plaza station.",
-          "Exit at Sixth Ave, and walk to Fifth Ave @ Ross St.",
-          "Take the 61 of 71 bus towards Oakland.",
-          "If 61: Exit at Forbes Ave past S Boquet St.",
-          "If 71: Exit at Fifth Ave @ Thackeray Ave."
-        ],
-        "Sutherland": [
-          "Walk to Allegheny T station.",
-          "Take the T downtown and exit at Steel Plaza station.",
-          "Exit at Sixth Ave, and walk to Fifth Ave @ Ross St.",
-          "Take the 61 of 71 bus towards Oakland.",
-          "Exit at Forbes or Fifth Ave @ Bigelow Blvd, and cross to Cathy",
-          "Take the 10A or 10B Pitt shuttle."
-        ],
-        "Towers": [
-          "Walk to Allegheny T station.",
-          "Take the T downtown and exit at Steel Plaza station.",
-          "Exit at Sixth Ave, and walk to Fifth Ave @ Ross St.",
-          "Take the 61 of 71 bus towards Oakland.",
-          "If 61: Exit at Forbes Ave past S Boquet St.",
-          "If 71: Exit at Fifth Ave @ Thackeray Ave."
-        ],
-        "South Side": [
-          "Walk to Allegheny T station.",
-          "Take the T downtown and exit at Station Square station.",
-          "Take the 48 bus towards South Side.",
-          "Exit at E Carson St @ S 26 St."
-        ],
-        "Downtown": [
-          "Walk to Allegheny T station.",
-          "Take the T downtown and exit at Steel Plaza station."
-        ],
-      }
-    };
-
-    $('form#directions-form').on('submit', (e) => {
-      e.preventDefault();
-      $('div#directions-body').html('<ul id="directions-list"></ul>');
-
-      const from = $('select#fromSelect').val();
-      const to = $('select#toSelect').val();
-
-      if (from === to) {
-        alert("From and to can't be the same.");
-      } else {
-        var directions = [];
-
-        if (cathyOrTowers.includes(from) && cathyOrTowers.includes(to)) {
-          directions = ["Walk along Fifth Ave."];
-        } else {
-          directions = directionsMap[from][to];
-        }
-
-        directions.forEach((direction) => {
-          $('ul#directions-list').append(`<li>${direction}</li>`);
-        });
-      }
-    });
-
-    $('#directionsModal').on('hidden.bs.modal', (e) => {
-      $('div#directions-body').html('<ul id="directions-list"></ul>');
-      $('select#fromSelect').prop('selectedIndex', 0);
-      $('select#toSelect').prop('selectedIndex', 0);
-    });
-  };
-
-  [initDate, initWeather, initBus, initDirections].forEach(fn => fn.call());
+  [initDate, initWeather, initBus].forEach(fn => fn.call());
 });
   </script>
 </body>
