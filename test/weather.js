@@ -36,7 +36,7 @@ tap.test('correctly sends weather response if success', (t) => {
       },
     };
 
-    t.strictSame(expectedResponse, JSON.parse(res.body));
+    t.strictSame(JSON.parse(res.body), expectedResponse);
     t.end();
   });
 });
@@ -49,7 +49,7 @@ tap.test('correctly sends weather response if error', (t) => {
     url: '/api/weather',
   }, (err, res) => {
     t.equal(500, res.statusCode);
-    t.strictSame({}, JSON.parse(res.body));
+    t.strictSame(JSON.parse(res.body), {});
     t.end();
   });
 });
