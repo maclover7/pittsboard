@@ -1,4 +1,4 @@
-# pida
+# pittsboard
 
 A cool tool that helps you get around the 'Burgh.
 
