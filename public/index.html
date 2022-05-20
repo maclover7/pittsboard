@@ -21,6 +21,7 @@
     }
 
     .center { text-align: center; }
+    .fas { color: black; }
   </style>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-58452343-11"></script>
@@ -116,7 +117,7 @@
               $container.append(`<h6>No times.</h6>`);
             } else {
               stopGroup.buses.slice(0, 5).forEach((bus) => {
-                $container.append(`<h6><i style="color: black" class="fas fa-2x fa-bus"></i> ${bus.status}: ${bus.route} to ${bus.destination}</h6>`);
+                $container.append(`<h6><i class="fas fa-2x fa-bus"></i> ${bus.status}: ${bus.route} to ${bus.destination}</h6>`);
               });
             }
 
