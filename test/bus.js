@@ -61,7 +61,7 @@ tap.test('correctly sends bus response if success', (t) => {
             stopId: 2573
           }
         ],
-        name: 'Craig @ Centre EE',
+        name: 'Craig & Centre EE',
         stopId: 2573
       },
       {
@@ -91,7 +91,7 @@ tap.test('correctly sends bus response if success', (t) => {
             stopId: 2633
           }
         ],
-        name: 'Craig @ Centre DT',
+        name: 'Craig & Centre DT',
         stopId: 2633
       },
       {
