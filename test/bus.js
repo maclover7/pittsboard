@@ -28,7 +28,6 @@ tap.test('correctly sends bus response if success', (t) => {
     .reply(200, railSuccessFixture);
 
   getBus((err, res) => {
-    require('fs').writeFileSync('res.json', JSON.stringify(res.body));
     t.equal(200, res.statusCode);
 
     const expectedResponse = [
