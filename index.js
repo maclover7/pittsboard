@@ -4,4 +4,4 @@ if (!process.env.NODE_ENV || (process.env.NODE_ENV && process.env.NODE_ENV !== '
   require('dotenv').config();
 }
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 3000, '0.0.0.0');
