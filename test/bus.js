@@ -1,25 +1,21 @@
 const tap = require('tap');
-const nock = require('nock');
+
+const axios = require('axios');
+const MockAdapter = require('axios-mock-adapter');
+const mock = new MockAdapter(axios);
+
+const busUrl = 'https://truetime.portauthority.org/bustime/api/v3/getpredictions?format=json&key=testkey&rtpidatafeed=Port+Authority+Bus&stpid=2633%2C2573';
+const railUrl = 'https://truetime.portauthority.org/bustime/api/v3/getpredictions?format=json&key=testkey&rtpidatafeed=Light+Rail&stpid=99995%2C98881';
 
 process.env.PABUS_KEY = 'testkey';
 const server = require('../lib/server');
 
-const ignoreQueryParams = (pathAndQuery) => require('url').parse(pathAndQuery, true).pathname;
-
 tap.test('correctly sends bus response if success', (t) => {
   const busSuccessFixture = require('fs').readFileSync('./test/bus_success.json').toString();
-  nock('https://truetime.portauthority.org')
-    .filteringPath(ignoreQueryParams)
-    .get('/bustime/api/v3/getpredictions')
-    .times(1)
-    .reply(200, busSuccessFixture);
+  mock.onGet(busUrl).reply(200, busSuccessFixture);
 
   const railSuccessFixture = require('fs').readFileSync('./test/rail_success.json').toString();
-  nock('https://truetime.portauthority.org')
-    .filteringPath(ignoreQueryParams)
-    .get('/bustime/api/v3/getpredictions')
-    .times(1)
-    .reply(200, railSuccessFixture);
+  mock.onGet(railUrl).reply(200, railSuccessFixture);
 
   server.inject({
     method: 'GET',
@@ -144,12 +140,8 @@ tap.test('correctly sends bus response if success', (t) => {
 });
 
 tap.test('correctly sends bus response if error', (t) => {
-  nock('https://truetime.portauthority.org')
-    .persist()
-    .filteringPath(ignoreQueryParams)
-    .get('/bustime/api/v3/getpredictions')
-    .times(2)
-    .reply(500, '');
+  mock.onGet(busUrl).reply(500);
+  mock.onGet(railUrl).reply(500);
 
   server.inject({
     method: 'GET',
