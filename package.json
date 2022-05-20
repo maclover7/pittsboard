@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint index.js lib/ test/bus.js",
     "start": "node index.js",
-    "test": "yarn run lint && tap test/*.js"
+    "test": "tap test/*.js"
   },
   "dependencies": {
     "dotenv": "^9.0.0",
