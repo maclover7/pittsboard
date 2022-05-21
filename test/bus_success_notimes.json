@@ -1,0 +1,59 @@
+{
+	"bustime-response": {
+		"prd": [
+			{
+				"tmstmp": "20220521 01:26",
+				"typ": "A",
+				"stpnm": "CRAIG ST + CENTRE AVE FS",
+				"stpid": "2633",
+				"vid": "6003",
+				"dstp": 1639,
+				"rt": "54",
+				"rtdd": "54",
+				"rtdir": "Outbound",
+				"des": "South Side - SHJ",
+				"prdtm": "20220521 01:28",
+				"tablockid": "54 -308",
+				"tatripid": "1218",
+				"origtatripno": "12281841",
+				"dly": false,
+				"dyn": 0,
+				"prdctdn": "DUE",
+				"zone": "",
+				"psgld": "EMPTY",
+				"stst": 90000,
+				"stsd": "2022-05-20"
+			},
+			{
+				"tmstmp": "20220521 01:26",
+				"typ": "A",
+				"stpnm": "CRAIG ST + CENTRE AVE FS",
+				"stpid": "2633",
+				"vid": "6712",
+				"dstp": 30489,
+				"rt": "54",
+				"rtdd": "54",
+				"rtdir": "Outbound",
+				"des": "South Side to Bon Air",
+				"prdtm": "20220521 01:55",
+				"tablockid": "54 -307",
+				"tatripid": "1219",
+				"origtatripno": "12281872",
+				"dly": false,
+				"dyn": 0,
+				"prdctdn": "28",
+				"zone": "",
+				"psgld": "EMPTY",
+				"stst": 91740,
+				"stsd": "2022-05-20"
+			}
+		],
+		"error": [
+			{
+				"rtpifeedname": "Port Authority Bus",
+				"stpid": "2573",
+				"msg": "No arrival times"
+			}
+		]
+	}
+}

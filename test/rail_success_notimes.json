@@ -1,0 +1,16 @@
+{
+	"bustime-response": {
+		"error": [
+      {
+        "rtpidatafeed": "Light Rail",
+        "stpid": "99995",
+        "msg": "No service scheduled"
+      },
+      {
+        "rtpidatafeed": "Light Rail",
+        "stpid": "98881",
+        "msg": "No arrival times"
+      }
+		]
+	}
+}
