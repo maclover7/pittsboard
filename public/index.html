@@ -94,7 +94,7 @@
               stopGroupText += '<p class="card-text">No times.</p>';
             } else {
               stopGroup.buses.slice(0, 5).forEach((bus) => {
-                stopGroupText += `<p class="card-text">${bus.status.replace('minutes', 'mins')}: ${bus.route} to ${bus.destination}</p>`;
+                stopGroupText += `<p class="card-text">${bus.status}: ${bus.route} to ${bus.destination}</p>`;
               });
             }
 
