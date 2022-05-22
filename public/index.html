@@ -79,7 +79,6 @@
 
   <script>
     $(document).ready(() => {
-      const skycons = new Skycons();
       const today = new Date();
 
       const initDate = () => {
@@ -106,6 +105,8 @@
       };
 
       const initWeather = () => {
+        const skycons = new Skycons();
+
         $.getJSON('/api/weather', (response) => {
           const getDesc = (key) => {
             const dayInfo = response[key];
