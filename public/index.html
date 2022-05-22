@@ -7,15 +7,15 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/gh/darkskyapp/skycons@11cc1ee/skycons.js"></script>
   <style>
-    .pdash-icon {
+    .pittsboard-daywrapper {
+      display: flex;
+      align-items: center;
+    }
+
+    .pittsboard-icon {
       display: inline-block;
       width: 80px; /* 85px; */
       height: 35px; /* 35px; */
-    }
-
-    .pdash-daywrapper {
-      display: flex;
-      align-items: center;
     }
 
     .card-subtitle { text-align: center; }
@@ -42,18 +42,18 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-subtitle">Weather</h5>
-            <div class="pdash-daywrapper">
-              <canvas class="pdash-icon" id="now-icon"></canvas>
+            <div class="pittsboard-daywrapper">
+              <canvas class="pittsboard-icon" id="now-icon"></canvas>
               <p id="now-headline"></p>
             </div>
 
-            <div class="pdash-daywrapper">
-              <canvas class="pdash-icon" id="today-icon"></canvas>
+            <div class="pittsboard-daywrapper">
+              <canvas class="pittsboard-icon" id="today-icon"></canvas>
               <p id="today-headline"></p>
             </div>
 
-            <div class="pdash-daywrapper">
-              <canvas class="pdash-icon" id="tomorrow-icon"></canvas>
+            <div class="pittsboard-daywrapper">
+              <canvas class="pittsboard-icon" id="tomorrow-icon"></canvas>
               <p id="tomorrow-headline"></p>
             </div>
           </div>
